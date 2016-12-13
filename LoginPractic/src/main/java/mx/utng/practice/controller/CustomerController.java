@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import mx.utng.practice.model.Contact;
 import mx.utng.practice.model.Customer;
+import mx.utng.practice.repository.ContactRepository;
 import mx.utng.practice.repository.CustomerRepository;
 
 @Named
@@ -17,9 +18,10 @@ import mx.utng.practice.repository.CustomerRepository;
 public class CustomerController {
 	@Autowired
 	private CustomerRepository customerRepository;
+	private ContactRepository contactRepository;
 	private Customer customer = new Customer();
 	private List<Customer> customers;
-	
+	private List<Contact> contacts;
 	private Contact contact= new Contact();
 	
 	private boolean editMode = false;
@@ -27,6 +29,10 @@ public class CustomerController {
 	@PostConstruct
 	public void init(){
 		setCustomers(customerRepository.findAll());
+	}
+	@PostConstruct
+	public void clean(){
+		setContacts(contactRepository.findAll());
 	}
 	
 	public void save(){
@@ -41,6 +47,7 @@ public class CustomerController {
 	public void delete(Customer customer){
 		customerRepository.delete(customer);
 		customers.remove(customer);
+		init();
 	}
 	
 	public void update(Customer customer){
@@ -61,6 +68,7 @@ public class CustomerController {
 
 	public void removeContact(Contact contact){
 		customer.getContacts().remove(contact);
+		clean();
 	}
 
 	public Customer getCustomer() {
@@ -93,6 +101,13 @@ public class CustomerController {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
+	}
+	public List<Contact> getContacts() {
+		return contacts;
+	}
+	
+	public void setContacts(List<Contact> contacts) {
+		this.contacts = contacts;
 	}
 
 }

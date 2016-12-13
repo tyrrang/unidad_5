@@ -78,6 +78,7 @@
 				 onclick="return window.confirm
 					 ('Are you sure?')" >
 					<f:ajax render="frmCustomer:dtCustomer"/>
+					<f:ajax render="frmCustomer:dtContacts"/>
 				</h:commandButton>
 				<h:commandButton action="#{customerController.update(c)}"
 				 value="Update" >

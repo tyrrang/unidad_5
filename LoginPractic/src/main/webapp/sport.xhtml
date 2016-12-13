@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head></h:head>
+	<body>
+		<h1>Sport</h1>
+		
+		<h:form id="frmSport">
+			Sport: <h:inputText value="#{sportController.sport.name}" />
+			Description: <h:inputText value="#{sportController.sport.description}" />
+			Area:  <h:inputText value="#{sportController.sport.area}" />							
+		<h:commandButton action="#{sportController.save}" value="Save" >
+		<f:ajax execute="frmSport" render="frmSport"/>
+		</h:commandButton>
+		
+		<h:commandButton rendered="#{sportController.editMode}" 
+			action="#{sportController.save}" value="Cancel" >
+			<f:ajax render="frmSport"></f:ajax>
+		</h:commandButton>
+		
+		<h:dataTable value="#{sportController.sports}" var="s"
+		id="dtSport">
+			<h:column>
+			<f:facet name="header">ID</f:facet>
+				#{s.id}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Name</f:facet>
+				#{s.name}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Description</f:facet>
+				#{s.description}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Area</f:facet>
+				#{s.area}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Actions</f:facet>
+				<h:commandButton action="#{sportController.delete(s)}"
+				 value="Delete"
+				 onclick="return window.confirm
+					 ('Are you sure?')" >
+					<f:ajax render="frmSport:dtSport"/>
+				</h:commandButton>
+				<h:commandButton action="#{sportController.update(s)}"
+				 value="Update" >
+				 	<f:ajax render="frmSport"/>
+				 </h:commandButton>
+			</h:column>
+		</h:dataTable>
+						
+		</h:form>
+			<br/><br/><br/>
+		<a href="menu.xhtml">Menu of Page</a>
+	</body>
+</html>
